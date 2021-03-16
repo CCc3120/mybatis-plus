@@ -1,0 +1,57 @@
+spring:
+
+#=========数据库&连接池=========
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:3306/springboot?useUnicode=true&amp;characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
+#脚本中创建表的语句存放路径，classpath/db表示在工程的resource层级下的db目录中存放。
+#若使用此方式建表，hibernate自动建表需设置none
+#    schema:
+#脚本中初始化数据的语句存放路径。
+#    data:
+#设置脚本的编码，默认常用设置为UTF-8。
+#    sql-script-encoding: 
+    name: dataSource
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      initial-size: 5
+      min-idle: 10
+      max-active: 100
+      max-wait: 60000
+#配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      time-between-eviction-runs-millis: 60000
+#配置一个连接在池中最小生存的时间，单位是毫秒
+      min-evictable-idle-time-millis: 300000
+#验证连接是否有效。此参数必须设置为非空字符串，下面三项设置成true才能生效
+      validation-query: SELECT 1
+      validation-query-timeout: 30000
+#指明连接是否被空闲连接回收器(如果有)进行检验.如果检测失败,则连接将被从池中去除.
+      test-while-idle: true
+#指明是否在从池中取出连接前进行检验,如果检验失败,则从池中去除连接并尝试取出另一个
+      test-on-borrow: true
+ #指明是否在归还到池中前进行检验
+      test-on-return: false
+#打开PSCache，并且指定每个连接上PSCache的大小
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+#配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙  stat,wall,log4j    
+#      filters: wall
+      stat-view-servlet:
+        login-username: admin
+        login-password: admin
+      filter:
+        stat:
+          merge-sql: true
+          log-slow-sql: true
+          slow-sql-millis: 1000
+
+mybatis-plus:
+  mapper-locations: classpath*:com/bingo/**/xml/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#延迟加载总开关，设置为false，即使侵入式开关设置为true也不会生效
+    lazy-loading-enabled: true
+#侵入式延迟加载开关true  深度延迟false
+    aggressive-lazy-loading: false
