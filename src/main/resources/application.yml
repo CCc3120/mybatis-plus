@@ -1,4 +1,11 @@
 spring:
+#  security:
+#    user:
+#      name: root
+#      password: root
+#      roles:
+#      - USER
+#      - ADMIN
 
 #=========数据库&连接池=========
   datasource:
